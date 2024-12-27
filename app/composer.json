@@ -1,0 +1,79 @@
+{
+  "type": "project",
+  "license": "proprietary",
+  "minimum-stability": "stable",
+  "prefer-stable": true,
+  "require": {
+    "php": ">=8.3",
+    "ext-ctype": "*",
+    "ext-iconv": "*",
+    "symfony/console": "7.2.*",
+    "symfony/dotenv": "7.2.*",
+    "symfony/flex": "^2.4.7",
+    "symfony/framework-bundle": "7.2.*",
+    "symfony/runtime": "7.2.*",
+    "symfony/yaml": "7.2.*"
+  },
+  "require-dev": {
+    "vimeo/psalm": "5.26.1",
+    "phpunit/phpunit": "^10.5.40",
+    "friendsofphp/php-cs-fixer": "^3.65",
+    "rector/rector": "^2.0.3"
+  },
+  "config": {
+    "allow-plugins": {
+      "php-http/discovery": true,
+      "symfony/flex": true,
+      "symfony/runtime": true
+    },
+    "bump-after-update": true,
+    "sort-packages": true
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "App\\Tests\\": "tests/"
+    }
+  },
+  "replace": {
+    "symfony/polyfill-ctype": "*",
+    "symfony/polyfill-iconv": "*",
+    "symfony/polyfill-php72": "*",
+    "symfony/polyfill-php73": "*",
+    "symfony/polyfill-php74": "*",
+    "symfony/polyfill-php80": "*",
+    "symfony/polyfill-php81": "*",
+    "symfony/polyfill-php82": "*"
+  },
+  "scripts": {
+    "auto-scripts": {
+      "cache:clear": "symfony-cmd",
+      "assets:install %PUBLIC_DIR%": "symfony-cmd"
+    },
+    "post-install-cmd": [
+      "@auto-scripts"
+    ],
+    "post-update-cmd": [
+      "@auto-scripts"
+    ],
+    "psalm": "psalm",
+    "cs-check": "vendor/bin/php-cs-fixer fix --diff --dry-run -v --config=.php-cs-fixer.php",
+    "cs-fix": "vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.php",
+    "rector-check": "vendor/bin/rector process --dry-run --clear-cache --config=rector.php",
+    "rector-fix": "vendor/bin/rector process --clear-cache --config=rector.php",
+    "phpunit": "vendor/bin/phpunit --configuration phpunit.xml"
+  },
+  "conflict": {
+    "symfony/symfony": "*"
+  },
+  "extra": {
+    "symfony": {
+      "allow-contrib": false,
+      "require": "7.2.*"
+    }
+  }
+}

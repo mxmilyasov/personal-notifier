@@ -1,0 +1,7 @@
+public:
+  resource:
+    path: ../src/Port/Action/
+    namespace: App\Port\Action
+  type: attribute
+  defaults:
+    _format: json
