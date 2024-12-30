@@ -59,5 +59,8 @@ composer-check:
 command:
 	docker compose run --rm -it personal-notifier-php $(filter-out $@,$(MAKECMDGOALS))
 
+console:
+	docker compose run --rm -it personal-notifier-php php bin/console $(filter-out $@,$(MAKECMDGOALS))
+
 setown:
 	sudo chown -R `id -u`:`id -g` app

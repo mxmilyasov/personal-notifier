@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Приветствие</title>
+  <style>
+      body {
+          margin: 0;
+          padding: 0;
+          font-family: 'Arial', sans-serif;
+          background: #1b1b1b;
+          color: #fff;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          overflow: hidden;
+      }
+
+      .welcome-container {
+          text-align: center;
+          animation: fadeIn 2s ease-in-out;
+      }
+
+      .welcome-image {
+          width: 300px;
+          border-radius: 50%;
+          margin-bottom: 20px;
+          box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+      }
+
+      .welcome-text {
+          font-size: 24px;
+          font-weight: bold;
+          margin: 0;
+          text-shadow: 0 0 10px #ff0000, 0 0 20px #ff7b7b;
+      }
+
+      @keyframes fadeIn {
+          from {
+              opacity: 0;
+          }
+          to {
+              opacity: 1;
+          }
+      }
+  </style>
+</head>
+<body>
+<div class="welcome-container">
+  <img src="{{ asset('images/vladislav.jpg') }}" alt="Владислав"
+       class="welcome-image">
+  <p class="welcome-text">ЭТО ЧТО, МЕХ? ПРИВЕТ, ЗВЭР!</p>
+</div>
+</body>
+</html>
