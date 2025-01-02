@@ -1,0 +1,6 @@
+doctrine_migrations:
+  all_or_nothing: false
+  enable_profiler: false
+  custom_template: '%kernel.project_dir%/migrations/migration.tpl'
+  migrations_paths:
+    'DoctrineMigrations': '%kernel.project_dir%/migrations'

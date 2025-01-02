@@ -1,34 +1,60 @@
 services:
-  # Nginx Service
   personal-notifier-nginx:
-    image: nginx:latest      # Use official Nginx image
+    image: nginx:latest
     container_name: personal-notifier-nginx
     ports:
-      - "8080:80"           # Map port 8080 on our PC to 80 in container
+      - "8080:80"
     volumes:
-      - "$PWD/app:/var/www/app:rw"  # Mount same source code
+      - "$PWD/app:/var/www/app:rw"
       - ./.docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
-      - personal-notifier-php                 # Wait for PHP container
+      - personal-notifier-php
     networks:
       - personal-notifier-network
     restart: unless-stopped
-
-    # PHP Service
   personal-notifier-php:
     build:
-      context: .              # Build context is current directory
+      context: .
       dockerfile: ./.docker/php/Dockerfile
-    container_name: personal-notifier-php # Name our container
+    container_name: personal-notifier-php
+    depends_on:
+      personal-notifier-mysql:
+        condition: service_healthy
     volumes:
-      - "$PWD/app:/var/www/app:rw"   # Mount our source code
+      - "$PWD/app:/var/www/app:rw"
     networks:
-      - personal-notifier-network          # Connect to our network
+      - personal-notifier-network
     environment:
-      PHP_IDE_CONFIG: serverName=personal-notifier # For Xdebug
-    # Make container restart unless stopped manually
+      PHP_IDE_CONFIG: serverName=personal-notifier
     restart: unless-stopped
+  personal-notifier-mysql:
+    image: mysql:8.4
+    container_name: personal-notifier-mysql
+    volumes:
+      - "$PWD/.docker/mysql/custom-mysql.cnf:/etc/mysql/conf.d/custom-mysql.cnf"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: db
+    healthcheck:
+      test: mysql -u$$MYSQL_ROOT_PASSWORD -p$$MYSQL_ROOT_PASSWORD -e "SHOW DATABASES;"
+      interval: 1s
+      timeout: 30s
+      retries: 30
+    networks:
+      - personal-notifier-network
+    ports:
+      - "33069:3306"
+  personal-notifier-redis:
+    image: redis:7.2-alpine
+    container_name: personal-notifier-redis
+    command:
+      - "redis-server"
+      - "--requirepass secret"
+    networks:
+      - personal-notifier-network
 
 networks:
   personal-notifier-network:
-    driver: bridge          # Standard Docker network type
+    driver: bridge

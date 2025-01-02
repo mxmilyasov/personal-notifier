@@ -18,6 +18,7 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 # Each one serves specific purpose:
 RUN docker-php-ext-install \
     mbstring \
+    pdo_mysql \
     exif \
     pcntl \
     bcmath \
