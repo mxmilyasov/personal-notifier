@@ -1,4 +1,5 @@
 init: docker-down-clear docker-build docker-up app-init
+app-init: app-clear-var-cache composer-install app-grant-db app-migrations app-warmup
 validate: cs-check psalm rector-check tests
 
 docker-up:
@@ -17,6 +18,23 @@ app-init: app-clear-var-cache composer-install
 
 app-clear-var-cache:
 	docker compose run --rm personal-notifier-php rm -rf /var/www/app/var/cache
+
+app-grant-db:
+	docker compose exec -T personal-notifier-mysql /usr/bin/mysql -uroot -proot -e "GRANT ALL ON *.* TO user@'%';FLUSH PRIVILEGES;"
+
+app-migrations:
+	docker compose run --rm personal-notifier-php php bin/console do:database:drop -nq --force --if-exists
+	docker compose run --rm personal-notifier-php php bin/console do:database:create -nq
+	docker compose run --rm personal-notifier-php php bin/console do:mi:mi -n
+
+dif:
+	docker compose run --rm personal-notifier-php php bin/console do:mi:di
+
+mig:
+	docker compose run --rm personal-notifier-php php bin/console do:mi:mi -n
+
+app-warmup:
+	docker compose run --rm personal-notifier-php php bin/console cache:warmup
 
 psalm:
 	docker compose run --rm personal-notifier-php composer psalm
@@ -64,3 +82,6 @@ console:
 
 setown:
 	sudo chown -R `id -u`:`id -g` app
+
+command-register:
+	docker compose run --rm -it personal-notifier-php php bin/console nutgram:register-commands

@@ -10,6 +10,7 @@ use Rector\CodeQuality\Rector\If_\CombineIfRector;
 use Rector\CodeQuality\Rector\Isset_\IssetOnPropertyObjectToPropertyExistsRector;
 use Rector\CodeQuality\Rector\Ternary\SwitchNegatedTernaryRector;
 use Rector\CodingStyle\Rector\ArrowFunction\StaticArrowFunctionRector;
+use Rector\CodingStyle\Rector\ClassConst\RemoveFinalFromConstRector;
 use Rector\CodingStyle\Rector\ClassMethod\MakeInheritedMethodVisibilitySameAsParentRector;
 use Rector\CodingStyle\Rector\ClassMethod\NewlineBeforeNewAssignSetRector;
 use Rector\CodingStyle\Rector\Closure\StaticClosureRector;
@@ -74,38 +75,39 @@ return static function (RectorConfig $rectorConfig): void {
         LevelSetList::UP_TO_PHP_83,
     ]);
 
-//    $rectorConfig->skip([
-//        # CodeQuality
-//        CombineIfRector::class,
-//        FlipTypeControlToUseExclusiveTypeRector::class,
-//        InlineConstructorDefaultToPropertyRector::class => [
-//            __DIR__ . '/src/Domain',
-//        ],
-//        IssetOnPropertyObjectToPropertyExistsRector::class,
-//        SimplifyBoolIdenticalTrueRector::class,
-//        # TypeDeclaration
-//        ReturnNeverTypeRector::class,
-//        # UpToPhp
-//        ClassPropertyAssignToConstructorPromotionRector::class,
-//        NewInInitializerRector::class => [
-//            __DIR__ . '/src/Domain',
-//        ],
-//        NullCoalescingOperatorRector::class,
-//        NullToStrictStringFuncCallArgRector::class,
-//        RandomFunctionRector::class,
-//        ReadOnlyPropertyRector::class,
-//        RestoreDefaultNullToNullableTypePropertyRector::class => [
-//            __DIR__ . '/src/Domain',
-//        ],
-//        StringableForToStringRector::class,
-//        AddOverrideAttributeToOverriddenMethodsRector::class,
-//        # Strict
-//        DisallowedEmptyRuleFixerRector::class,
-//        StringClassNameToClassConstantRector::class => [
-//            __DIR__ . '/src/Port/Console/Fixtures/GenerateApplicationsConsole.php',
-//        ],
-//        PrivatizeLocalGetterToPropertyRector::class => [
-//            __DIR__ . '/src/Infrastructure/Security/Voters/PermissionAccess/BasePermissionAccessVoter.php',
-//        ]
-//    ]);
+    $rectorConfig->skip([
+        # CodeQuality
+        RemoveFinalFromConstRector::class,
+        CombineIfRector::class,
+        FlipTypeControlToUseExclusiveTypeRector::class,
+        InlineConstructorDefaultToPropertyRector::class => [
+            __DIR__ . '/src/Domain',
+        ],
+        IssetOnPropertyObjectToPropertyExistsRector::class,
+        SimplifyBoolIdenticalTrueRector::class,
+        # TypeDeclaration
+        ReturnNeverTypeRector::class,
+        # UpToPhp
+        ClassPropertyAssignToConstructorPromotionRector::class,
+        NewInInitializerRector::class => [
+            __DIR__ . '/src/Domain',
+        ],
+        NullCoalescingOperatorRector::class,
+        NullToStrictStringFuncCallArgRector::class,
+        RandomFunctionRector::class,
+        ReadOnlyPropertyRector::class,
+        RestoreDefaultNullToNullableTypePropertyRector::class => [
+            __DIR__ . '/src/Domain',
+        ],
+        StringableForToStringRector::class,
+        AddOverrideAttributeToOverriddenMethodsRector::class,
+        # Strict
+        DisallowedEmptyRuleFixerRector::class,
+        StringClassNameToClassConstantRector::class => [
+            __DIR__ . '/src/Port/Console/Fixtures/GenerateApplicationsConsole.php',
+        ],
+        PrivatizeLocalGetterToPropertyRector::class => [
+            __DIR__ . '/src/Infrastructure/Security/Voters/PermissionAccess/BasePermissionAccessVoter.php',
+        ]
+    ]);
 };
